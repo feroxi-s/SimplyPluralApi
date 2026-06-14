@@ -1,3 +1,5 @@
+# escape=`
+
 ARG NODE_VERSION=20.20.1
 ARG WITH_PM2=false
 ARG WITH_DOPPLER=false
@@ -19,8 +21,8 @@ COPY --from=builder /build/node_modules/ /app/node_modules/
 COPY --from=builder /build/templates/ /app/templates/
 COPY docker-entrypoint.sh /app/
 
-RUN mkdir -p /var/log/simply-plural /app/data && \
-    chown -R node:node /var/log/simply-plural /app/data && \
+RUN mkdir -p /var/log/simply-plural /app/data && `
+    chown -R node:node /var/log/simply-plural /app/data && `
     chown -R node:node /app
 
 WORKDIR /app
@@ -41,11 +43,11 @@ FROM base AS pm2-false
 FROM pm2-${WITH_PM2} AS doppler-true
 
 USER root
-RUN apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg && \
-    curl -sLf --retry 3 --tlsv1.2 --proto "=https" 'https://packages.doppler.com/public/cli/gpg.DE2A7741A397C129.key' | gpg --dearmor -o /usr/share/keyrings/doppler-archive-keyring.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/doppler-archive-keyring.gpg] https://packages.doppler.com/public/cli/deb/debian any-version main" | tee /etc/apt/sources.list.d/doppler-cli.list && \
-    apt-get update && \
-    apt-get -y install doppler && \
+RUN apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg && `
+    curl -sLf --retry 3 --tlsv1.2 --proto "=https" 'https://packages.doppler.com/public/cli/gpg.DE2A7741A397C129.key' | gpg --dearmor -o /usr/share/keyrings/doppler-archive-keyring.gpg && `
+    echo "deb [signed-by=/usr/share/keyrings/doppler-archive-keyring.gpg] https://packages.doppler.com/public/cli/deb/debian any-version main" | tee /etc/apt/sources.list.d/doppler-cli.list && `
+    apt-get update && `
+    apt-get -y install doppler && `
     rm -rf /var/lib/apt/lists/*
 USER node
 
